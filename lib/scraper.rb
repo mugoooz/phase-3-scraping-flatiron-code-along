@@ -25,15 +25,23 @@ class Scraper
     doc.css(".course")
   end
 
+  def scrape_data
+    doc = get_page
+    binding.pry
+  end
+
 
   def make_courses
     course_offerings = get_courses
     course_offerings.each do |course|
     end
-    
+
   end
 
 end
+
+scraper = Scraper.new
+scraper.scrape_data
 
 
 
