@@ -15,7 +15,24 @@ class Scraper
       end
     end
   end
+
+  def get_page
+    Nokogiri::HTML(open("https://moringa.instructure.com/"))
+  end
   
+  def get_courses
+    doc = get_page
+    doc.css(".course")
+  end
+
+
+  def make_courses
+    course_offerings = get_courses
+    course_offerings.each do |course|
+    end
+    
+  end
+
 end
 
 
