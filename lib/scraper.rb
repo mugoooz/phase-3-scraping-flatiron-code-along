@@ -17,31 +17,36 @@ class Scraper
   end
 
   def get_page
-    Nokogiri::HTML(open("https://moringa.instructure.com/"))
-  end
-  
-  def get_courses
-    doc = get_page
-    doc.css(".course")
-  end
+    doc = Nokogiri::HTML(open("http://learn-co-curriculum.github.io/site-for-scraping/courses"))
 
-  def scrape_data
-    doc = get_page
+    doc = Nokogiri::HTML(open("http://learn-co-curriculum.github.io/site-for-scraping/courses"))
+
+    doc.css(".post").each do |post|
+      course = Course.new
+      course.title = post.css("h2").text
+      course.schedule = post.css(".date").text
+      course.description = post.css("p").text
+    end
+
     binding.pry
   end
 
+  def get_courses
+    self.get_page.css(".post")
+  end
 
   def make_courses
-    course_offerings = get_courses
-    course_offerings.each do |course|
+    self.get_courses.each do |post|
+      course = Course.new
+      course.title = post.css("h2").text
+      course.schedule = post.css(".date").text
+      course.description = post.css("p").text
     end
 
   end
-
+  
 end
 
-scraper = Scraper.new
-scraper.scrape_data
-
-
+Scraper.new.get_page
+Scraper.new.print_courses
 
